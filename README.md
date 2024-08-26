@@ -264,3 +264,77 @@ Objetivo:
 Criar a estrutura de um banco de dados relacional utilizando um Sistema de Gerenciamento de Banco de Dados (SGBD).
 O projeto Utiliza o MySQL para gerenciamneto do banco de dados e para administrá-lo estou usando o phpMyAdmin, junto com o DBeaver para ter uma melhor visualização.
 
+**Código SQL:**
+
+### *Criando o banco de dados:*
+```
+sql
+CREATE DATABASE corenba_db;
+USE corenba_db;
+```
+
+- Tabela Profissional
+```
+CREATE TABLE tbl_profissional (
+    cp_id_profissional INT AUTO_INCREMENT PRIMARY KEY,
+    nome_completo VARCHAR(200) NOT NULL,
+    cpf VARCHAR(11) UNIQUE NOT NULL,
+    data_nascimento DATE NOT NULL,
+    sexo CHAR(1) NOT NULL,
+    email VARCHAR(100),
+    telefone VARCHAR(15),
+    registro_coren VARCHAR(20) UNIQUE NOT NULL,
+    data_inscricao DATE NOT NULL,
+    conselho_regional INT NOT NULL,
+    situacao_profissional VARCHAR(20) NOT NULL,
+    FOREIGN KEY (conselho_regional) REFERENCES tbl_conselho_regional(cp_id_conselho)
+);
+```
+- Tabela Instituição
+```
+CREATE TABLE tbl_instituicao (
+    cp_id_instituicao INT AUTO_INCREMENT PRIMARY KEY,
+    nome_instituicao VARCHAR(100) NOT NULL,
+    endereco VARCHAR(200),
+    telefone VARCHAR(15),
+    email VARCHAR(100)
+);
+```
+- Tabela Diploma
+```
+CREATE TABLE tbl_diploma (
+    cp_id_diploma INT AUTO_INCREMENT PRIMARY KEY,
+    ce_id_profissional INT NOT NULL,
+    ce_id_instituicao INT NOT NULL,
+    curso VARCHAR(100) NOT NULL,
+    tipo_diploma VARCHAR(50) NOT NULL,
+    data_concessao DATE NOT NULL,
+    FOREIGN KEY (ce_id_profissional) REFERENCES tbl_profissional(cp_id_profissional),
+    FOREIGN KEY (ce_id_instituicao) REFERENCES tbl_instituicao(cp_id_instituicao)
+);
+```
+- Tabela Pagamento
+```
+CREATE TABLE tbl_pagamento (
+    cp_id_pagamento INT AUTO_INCREMENT PRIMARY KEY,
+    ce_id_profissional INT NOT NULL,
+    ano_referencia INT NOT NULL,
+    valor_pago DECIMAL(10, 2) NOT NULL,
+    data_pagamento DATE NOT NULL,
+    forma_pagamento VARCHAR(50),
+    status_pagamento VARCHAR(20),
+    FOREIGN KEY (ce_id_profissional) REFERENCES tbl_profissional(cp_id_profissional)
+);
+```
+- Tabela Processo
+```
+CREATE TABLE tbl_processo (
+    cp_id_processo INT AUTO_INCREMENT PRIMARY KEY,
+    tipo_processo VARCHAR(50) NOT NULL,
+    numero_processo VARCHAR(50) NOT NULL,
+    data_abertura DATE NOT NULL,
+    conselho_responsavel INT,
+    descricao TEXT,
+    FOREIGN KEY (conselho_responsavel) REFERENCES tbl_conselho_regional(cp_id_conselho)
+);
+```
