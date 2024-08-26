@@ -249,11 +249,18 @@ Tabela que concentra informações sobre o Conselho Federal de Enfermagem (COFEN
 - Um profissional pertence a um único conselho regional.
 - Um conselho regional pode ter vários profissionais associados.
 
-<p style="text-align: center;">Diagrama conceitual.</p>
-
+*Diagrama conceitual*
 ![Diagrama Conceitual](./img/diagrama_inicial/conceitual.png)
 
-<p style="text-align: center;">Diagrama lógico.</p>
-
+*Diagrama lógico*
 ![Diagrama Conceitual](./img/diagrama_inicial/logico.png)
+
+### *Modificação no diagrama lógico após iniciar no SQL*
+![Modificação no diagrama lógico](./img/DER_corenba.png)
+## 2 Criando a Estrutura Relacional no SGBD
+
+Objetivo:
+
+Criar a estrutura de um banco de dados relacional utilizando um Sistema de Gerenciamento de Banco de Dados (SGBD).
+O projeto Utiliza o MySQL para gerenciamneto do banco de dados e para administrá-lo estou usando o phpMyAdmin, junto com o DBeaver para ter uma melhor visualização.
 
