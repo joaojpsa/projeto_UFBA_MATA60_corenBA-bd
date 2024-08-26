@@ -248,3 +248,12 @@ Tabela que concentra informações sobre o Conselho Federal de Enfermagem (COFEN
 ### Relação entre `tbl_conselho_regional` e `tbl_profissional`
 - Um profissional pertence a um único conselho regional.
 - Um conselho regional pode ter vários profissionais associados.
+
+<p style="text-align: center;">Diagrama conceitual.</p>
+
+![Diagrama Conceitual](./img/diagrama_inicial/conceitual.png)
+
+<p style="text-align: center;">Diagrama lógico.</p>
+
+![Diagrama Conceitual](./img/diagrama_inicial/logico.png)
+
