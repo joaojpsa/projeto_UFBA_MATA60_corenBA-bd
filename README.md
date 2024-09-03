@@ -272,7 +272,7 @@ sql
 CREATE DATABASE corenba_db;
 USE corenba_db;
 ```
-#### Tela de Login (tela inicial)
+### *Tela de Login*
 Será a tela que o usuário irá fazer o login para iniciar o procedimento de atendimento ao profissional.
 Nessa tela irá digitar:
 |		|				|	
@@ -283,8 +283,9 @@ Nessa tela irá digitar:
 **|ENTRAR|**
 
 > [!NOTE]
-*Botão "ENTRAR" verifica usuário e acesso no sistema*
+*Botão "ENTRAR" verifica usuário e acesso no sistema. Se as credenciais estiverem corretas, o sistema redireciona o usuário para a Tela Inicial.*
 
+- *Tabela Usuário*
 ```
 CREATE TABLE tbl_usuario (
     cp_id_usuario INT AUTO_INCREMENT PRIMARY KEY,
@@ -293,6 +294,15 @@ CREATE TABLE tbl_usuario (
     perfil_acesso VARCHAR(50) NOT NULL
 );
 ```
+---
+### *Tela Inicial*
+Após acesso ao sistema, uma nova tela irá aparecer com um *menu* na parte superior:
+|PROFISSIONAL|AGENDAMENTO|PROCESSOS| *menu*
+|------------|-----------|---------|
+|cadastro|criar|consulta|
+|consulta|consulta||
+
+
 
 - Tabela Profissional
 ```
