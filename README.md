@@ -282,7 +282,7 @@ Nessa tela irá digitar:
 
 **|ENTRAR|**
 
-> [!Observação]
+> [!NOTE]
 Botão "ENTRAR" verifica usuário e acesso no sistema
 ```
 CREATE TABLE tbl_usuario (
