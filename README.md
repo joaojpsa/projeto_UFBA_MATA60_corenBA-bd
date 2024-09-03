@@ -283,7 +283,8 @@ Nessa tela irá digitar:
 **|ENTRAR|**
 
 > [!NOTE]
-Botão "ENTRAR" verifica usuário e acesso no sistema
+*Botão "ENTRAR" verifica usuário e acesso no sistema*
+
 ```
 CREATE TABLE tbl_usuario (
     cp_id_usuario INT AUTO_INCREMENT PRIMARY KEY,
