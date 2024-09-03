@@ -265,19 +265,82 @@ sql
 CREATE DATABASE corenba_db;
 USE corenba_db;
 ```
-### *Tela de Login*
-Será a tela que o usuário irá fazer o login para iniciar o procedimento de atendimento ao profissional.
-Nessa tela irá digitar:
-|		|				|	
--------|--------------|
-|Login|  *usuário* |
-|Senha|************|
+# Estrutura das Telas do Programa
 
-**|ENTRAR|**
+## Estrutura das Telas do Programa
 
-> [!NOTE]
-*Botão "ENTRAR" verifica usuário e acesso no sistema. Se as credenciais estiverem corretas, o sistema redireciona o usuário para a Tela Inicial.*
-*os usuários do sistema são cadastrados pelo Departamento de Tecnologia*
+## 1. Tela de Login
+- **Descrição:** 
+  - Tela de entrada onde os usuários devem inserir suas credenciais para acessar o sistema.
+- **Componentes:**
+  - Campo para Email.
+  - Campo para Senha.
+  - Botão "Entrar".
+  - Link para recuperação de senha.
+
+## 2. Tela Principal (Dashboard e Relatórios)
+- **Descrição:** 
+  - Tela inicial após o login, com um painel de controle e acesso aos principais relatórios.
+- **Componentes:**
+  - **Dashboard:**
+    - Resumo de Atendimentos Pendentes.
+    - Resumo de Triagens Pendentes.
+    - Indicadores de Status de Pagamentos e Processos.
+    - Acesso rápido para iniciar novos atendimentos e triagens.
+  - **Relatórios:**
+    - Campos de filtro para definir parâmetros dos relatórios (Data, Tipo de Atendimento, Status, etc.).
+    - Botão "Gerar Relatório" para exibir dados filtrados.
+    - Opção para exportar relatórios em formato PDF ou Excel.
+
+## 3. Tela de Triagem de Profissional
+- **Descrição:** 
+  - Tela onde todos os profissionais passam para verificar se já possuem cadastro no sistema e se têm pendências antes de prosseguir para o atendimento.
+- **Componentes:**
+  - Campo de busca por CPF ou Nome do profissional.
+  - Exibição dos detalhes do profissional, caso já esteja cadastrado.
+  - Indicadores de pendências, se houver.
+  - Botão "Registrar Triagem" para finalizar essa etapa e encaminhar para o atendimento.
+
+## 4. Tela de Atendimento
+- **Descrição:** 
+  - Tela para registrar um novo atendimento após a triagem, onde também é possível cadastrar o profissional se ele ainda não estiver no sistema.
+- **Componentes:**
+  - Exibição dos detalhes do profissional, incluindo informações verificadas na triagem.
+  - Campo para selecionar o usuário responsável pelo atendimento.
+  - Campo para Data e Hora do Atendimento.
+  - Campo para selecionar o Tipo de Serviço:
+    - **Cadastro Inicial e Pagamento da Carteira** (caso o profissional não tenha cadastro)
+    - **Renovação**
+    - **Quitar Dívidas**
+    - **Alteração de Cadastro**
+    - **Verificar Processos**
+  - **Seção para Cadastro do Profissional** (caso não esteja cadastrado):
+    - Campos de entrada para Nome, CPF, Data de Nascimento, Email, Telefone, e Endereço.
+    - Seção para associar Especialidades ao profissional.
+    - Seção para associar Diplomas ao profissional.
+  - Campo para Detalhes adicionais.
+  - Botão "Salvar" para registrar o atendimento e/ou cadastro.
+
+## 5. Tela de Processos
+- **Descrição:** 
+  - Tela para visualizar e gerenciar os processos relacionados aos profissionais, como pendências financeiras ou outras solicitações.
+- **Componentes:**
+  - Campo de busca por CPF ou Nome do profissional.
+  - Lista de processos associados ao profissional, incluindo ID do Processo, Tipo, Status, e Detalhes.
+  - Opções para atualizar o status do processo, adicionar notas, ou anexar documentos.
+  - Botão "Adicionar Novo Processo" para criar um novo registro de processo.
+
+## 6. Tela de Ajuda
+- **Descrição:** 
+  - Tela para fornecer suporte e instruções de uso do sistema.
+- **Componentes:**
+  - Seção de FAQs.
+  - Link para documentação do sistema.
+  - Opção de contato para suporte técnico.
+
+## Observações
+- **Gerenciamento de Usuários:** O gerenciamento de usuários do sistema é feito internamente pela equipe de TI e não está acessível através das telas do programa.
+
 
 - *Tabela Usuário*
 ```
@@ -289,32 +352,6 @@ CREATE TABLE tbl_usuario (
 );
 ```
 ---
-### *Tela Inicial*
-Após acesso ao sistema, uma nova tela irá aparecer com um *menu* na parte superior:
-
-```mermaid
-flowchart TD
-    A[Profissional] --> B(cadastro) --> C(consulta)
-    D[Agendamento] --> E(novo) --> F(consulta)
-    G[Processos] --> H(cadastro) --> I(consulta)
-```
->Menu `Profissional` terá submenus para acesso as telas de `consulta` e `cadastro`.
-
-Tela de Consulta e Edição de Profissionais
-
-Componentes:
-
-    Campo de Busca: Um campo para buscar profissionais pelo nome ou CPF.
-    Lista de Resultados: Exibe uma lista de profissionais encontrados com base nos critérios de busca.
-    Botões de Ação: Botões de "Editar" e "Excluir" ao lado de cada profissional listado.
-
-Fluxo:
-
-    O usuário insere um nome ou CPF no campo de busca e clica em "Buscar".
-    O sistema exibe os resultados na lista de resultados.
-    Ao clicar em "Editar", o usuário é levado para a Tela de Edição de Profissionais com os dados do profissional pré-preenchidos.
-    Ao clicar em "Excluir", o sistema solicita uma confirmação antes de excluir o profissional do banco de dados.
-
 
 - Tabela Profissional
 ```
