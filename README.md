@@ -170,72 +170,72 @@ O sistema deve garantir a segurança dos dados com controle de acesso baseado em
 - **`perfil ENUM('Admin', 'Usuario') NOT NULL`**: Perfil do usuário (obrigatório).
 
 
-## Relações entre as Entidades
+## RELAÇÕES ENTRE AS ENTIDADES
 
-## 1. Profissional e Especialidade
+### 1. Profissional e Especialidade
 - **Relação:** Muitos para Muitos (N:N)
 - **Descrição:** 
   - Um profissional pode ter uma ou várias especialidades.
   - Uma especialidade pode ser atribuída a um ou vários profissionais.
 - **Tabela Intermediária:** Profissional_Especialidade
 
-## 2. Profissional e Diploma
+### 2. Profissional e Diploma
 - **Relação:** Muitos para Muitos (N:N)
 - **Descrição:**
   - Um profissional pode ter um ou vários diplomas.
   - Um diploma pode ser associado a um ou vários profissionais.
 - **Tabela Intermediária:** Profissional_Diploma
 
-## 3. Profissional e Instituição
+### 3. Profissional e Instituição
 - **Relação:** Muitos para Muitos (N:N)
 - **Descrição:**
   - Um profissional pode estar associado a uma ou várias instituições.
   - Uma instituição pode estar associada a um ou vários profissionais.
 - **Tabela Intermediária:** Profissional_Instituicao
 
-## 4. Profissional e Processo_Pagamento
+### 4. Profissional e Processo_Pagamento
 - **Relação:** Um para Muitos (1:N)
 - **Descrição:**
   - Um profissional pode ter um ou vários processos de pagamento.
   - Cada processo de pagamento é atribuído a um único profissional.
 - **Chave Estrangeira:** ce_id_profissional na tabela Processo_Pagamento
 
-## 5. Pagamento e Processo_Pagamento
+### 5. Pagamento e Processo_Pagamento
 - **Relação:** Um para Muitos (1:N)
 - **Descrição:**
   - Um pagamento pode ser registrado em um ou vários processos de pagamento.
   - Um processo de pagamento está relacionado a um único pagamento.
 - **Chave Estrangeira:** cp_id_pagamento na tabela Processo_Pagamento
 
-## 6. Triagem e Profissional
+### 6. Triagem e Profissional
 - **Relação:** Um para Muitos (1:N)
 - **Descrição:**
   - Uma triagem pode estar associada a um único profissional ou nenhum.
   - Um profissional pode passar por uma ou várias triagens.
 - **Chave Estrangeira:** ce_id_profissional (opcional) na tabela Triagem
 
-## 7. Triagem e Usuario
+### 7. Triagem e Usuario
 - **Relação:** Um para Muitos (1:N)
 - **Descrição:**
   - Uma triagem é sempre realizada por um único usuário.
   - Um usuário pode realizar várias triagens.
 - **Chave Estrangeira:** ce_id_usuario na tabela Triagem
 
-## 8. Atendimento e Profissional
+### 8. Atendimento e Profissional
 - **Relação:** Um para Muitos (1:N)
 - **Descrição:**
   - Um atendimento é sempre relacionado a um único profissional.
   - Um profissional pode ser atendido várias vezes.
 - **Chave Estrangeira:** ce_id_profissional na tabela Atendimento
 
-## 9. Atendimento e Usuario
+### 9. Atendimento e Usuario
 - **Relação:** Um para Muitos (1:N)
 - **Descrição:**
   - Um atendimento é realizado por um único usuário.
   - Um usuário pode realizar vários atendimentos.
 - **Chave Estrangeira:** ce_id_usuario na tabela Atendimento
 
-## 10. Usuario
+### 10. Usuario
 - **Relação:** Um para Muitos (1:N) com as tabelas Triagem e Atendimento
 - **Descrição:**
   - Um usuário pode realizar várias triagens e atendimentos.
@@ -277,6 +277,7 @@ Nessa tela irá digitar:
 
 > [!NOTE]
 *Botão "ENTRAR" verifica usuário e acesso no sistema. Se as credenciais estiverem corretas, o sistema redireciona o usuário para a Tela Inicial.*
+*os usuários do sistema são cadastrados pelo Departamento de Tecnologia*
 
 - *Tabela Usuário*
 ```
