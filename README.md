@@ -272,6 +272,38 @@ sql
 CREATE DATABASE corenba_db;
 USE corenba_db;
 ```
+#### Tela de Login (tela inicial)
+Será a tela que o usuário irá fazer o login para iniciar o procedimento de atendimento ao profissional.
+Nessa tela irá digitar:
+|		|				|	
+-------|--------------|
+|Login|  *usuário* |
+|Senha|************|
+
+**|ENTRAR|**
+
+> [!NOTE]  
+> Highlights information that users should take into account, even when skimming.
+
+> [!TIP]
+> Optional information to help a user be more successful.
+
+> [!IMPORTANT]  
+> Crucial information necessary for users to succeed.
+
+> [!WARNING]  
+> Critical content demanding immediate user attention due to potential risks.
+
+> [!CAUTION]
+> Negative potential consequences of an action.
+```
+CREATE TABLE tbl_usuario (
+    cp_id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nome_usuario VARCHAR(100) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    perfil_acesso VARCHAR(50) NOT NULL
+);
+```
 
 - Tabela Profissional
 ```
@@ -360,15 +392,7 @@ CREATE TABLE tbl_especialidade (
     FOREIGN KEY (ce_id_profissional) REFERENCES tbl_profissional(cp_id_profissional)
 );
 ```
-- Tabela Usuário
-```
-CREATE TABLE tbl_usuario (
-    cp_id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    nome_usuario VARCHAR(100) NOT NULL,
-    senha VARCHAR(255) NOT NULL,
-    perfil_acesso VARCHAR(50) NOT NULL
-);
-```
+
 - Tabela Atendimento
 ```
 CREATE TABLE tbl_atendimento (
