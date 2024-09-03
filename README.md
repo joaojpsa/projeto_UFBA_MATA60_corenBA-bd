@@ -2,7 +2,7 @@
 
 ## MATA60 - Banco de Dados
 Prof. Robespierre Pita
-## 1 Modelando a Base de Dados
+## 1. Modelando a Base de Dados
 
 ### 1.1 PROBLEMA
 
@@ -257,7 +257,7 @@ Tabela que concentra informações sobre o Conselho Federal de Enfermagem (COFEN
 
 ### *Modificação no diagrama lógico após iniciar no SQL*
 ![Modificação no diagrama lógico](./img/DER_corenba.png)
-## 2 Criando a Estrutura Relacional no SGBD
+## 2. Criando a Estrutura Relacional no SGBD
 
 Objetivo:
 
@@ -337,4 +337,232 @@ CREATE TABLE tbl_processo (
     descricao TEXT,
     FOREIGN KEY (conselho_responsavel) REFERENCES tbl_conselho_regional(cp_id_conselho)
 );
+```
+- Tabela Profissional_Processo (N:M entre Profissional e Processo)
+```
+CREATE TABLE tbl_profissional_processo (
+    ce_id_profissional INT NOT NULL,
+    ce_id_processo INT NOT NULL,
+    data_inclusao DATE NOT NULL,
+    funcao_no_processo VARCHAR(100),
+    PRIMARY KEY (ce_id_profissional, ce_id_processo),
+    FOREIGN KEY (ce_id_profissional) REFERENCES tbl_profissional(cp_id_profissional),
+    FOREIGN KEY (ce_id_processo) REFERENCES tbl_processo(cp_id_processo)
+);
+```
+- Tabela Especialidade
+```
+CREATE TABLE tbl_especialidade (
+    cp_id_especialidade INT AUTO_INCREMENT PRIMARY KEY,
+    ce_id_profissional INT NOT NULL,
+    area_atuacao VARCHAR(100) NOT NULL,
+    data_conclusao DATE,
+    FOREIGN KEY (ce_id_profissional) REFERENCES tbl_profissional(cp_id_profissional)
+);
+```
+- Tabela Usuário
+```
+CREATE TABLE tbl_usuario (
+    cp_id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nome_usuario VARCHAR(100) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    perfil_acesso VARCHAR(50) NOT NULL
+);
+```
+- Tabela Atendimento
+```
+CREATE TABLE tbl_atendimento (
+    cp_id_atendimento INT AUTO_INCREMENT PRIMARY KEY,
+    ce_id_profissional INT NOT NULL,
+    data_hora DATETIME NOT NULL,
+    detalhes TEXT,
+    ce_id_usuario INT NOT NULL,
+    FOREIGN KEY (ce_id_profissional) REFERENCES tbl_profissional(cp_id_profissional),
+    FOREIGN KEY (ce_id_usuario) REFERENCES tbl_usuario(cp_id_usuario)
+);
+```
+- Tabela Agendamento
+```
+CREATE TABLE tbl_agendamento (
+    cp_id_agendamento INT AUTO_INCREMENT PRIMARY KEY,
+    ce_id_profissional INT NOT NULL,
+    data_hora DATETIME NOT NULL,
+    motivo TEXT,
+    ce_id_usuario INT NOT NULL,
+    FOREIGN KEY (ce_id_profissional) REFERENCES tbl_profissional(cp_id_profissional),
+    FOREIGN KEY (ce_id_usuario) REFERENCES tbl_usuario(cp_id_usuario)
+);
+```
+- Tabela Conselho Regional
+```
+CREATE TABLE tbl_conselho_regional (
+    cp_id_conselho INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    endereco VARCHAR(200),
+    telefone VARCHAR(15),
+    email VARCHAR(100),
+    website VARCHAR(100),
+    cofen_id INT,
+    FOREIGN KEY (cofen_id) REFERENCES tbl_cofen(cp_id_cofen)
+);
+```
+- Tabela COFEN
+```
+CREATE TABLE tbl_cofen (
+    cp_id_cofen INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    endereco VARCHAR(200),
+    telefone VARCHAR(15),
+    email VARCHAR(100),
+    website VARCHAR(100)
+);
+```
+## 3. Definindo as Constraints
+
+No código SQL já foram denifidas. Abaixo um esquema explicativo:
+
+- **`tbl_profissional`**: Conecta a tabela `tbl_profissional` com `tbl_conselho_regional` através da constraint `fk_profissional_conselho_regional`.
+- **`tbl_diploma`**: Conecta a tabela `tbl_diploma` com `tbl_profissional` e `tbl_instituicao` através das constraints `fk_diploma_profissional` e `fk_diploma_instituicao`.
+- **`tbl_pagamento`**: Conecta a tabela `tbl_pagamento` com `tbl_profissional` através da constraint `fk_pagamento_profissional`.
+- **`tbl_processo`**: Conecta a tabela `tbl_processo` com `tbl_conselho_regional` através da constraint `fk_processo_conselho_regional`.
+- **`tbl_profissional_processo`**: Conecta a tabela `tbl_profissional_processo` com `tbl_profissional` e `tbl_processo` através das constraints `fk_profissional_processo_profissional` e `fk_profissional_processo_processo`.
+- **`tbl_especialidade`**: Conecta a tabela `tbl_especialidade` com `tbl_profissional` através da constraint `fk_especialidade_profissional`.
+- **`tbl_atendimento`**: Conecta a tabela `tbl_atendimento` com `tbl_profissional` e `tbl_usuario` através das constraints `fk_atendimento_profissional` e `fk_atendimento_usuario`.
+- **`tbl_agendamento`**: Conecta a tabela `tbl_agendamento` com `tbl_profissional` e `tbl_usuario` através das constraints `fk_agendamento_profissional` e `fk_agendamento_usuario`.
+- **`tbl_conselho_regional`**: Conecta a tabela `tbl_conselho_regional` com `tbl_cofen` através da constraint `fk_conselho_regional_cofen`.
+
+## 4. OLTP 1: Populando a base de dados
+
+- Inserir dados na tabela tbl_cofen
+```
+INSERT INTO tbl_cofen (nome, endereco, telefone, email, website)
+VALUES
+    ('Conselho Federal de Enfermagem', 'Rua do Cofen, 123', '21 99999-0000', 'contato@cofen.gov.br', 'www.cofen.gov.br');
+```
+- Inserir dados na tabela tbl_conselho_regional
+```
+INSERT INTO tbl_conselho_regional (nome, endereco, telefone, email, website, ce_id_cofen)
+VALUES
+    ('COREN-Bahia', 'R. Gen. Labatut, 273', '71 88888-0000', 'contato@corenba.gov.br', 'www.corenba.gov.br', 1);
+```
+- Inserir dados na tabela tbl_profissional
+```
+INSERT INTO tbl_profissional (nome_completo, cpf, data_nascimento, sexo, email, telefone, registro_coren, data_inscricao, conselho_regional, situacao_profissional)
+VALUES
+    ('Maria Silva', '12345678901', '1985-05-15', 'F', 'maria.silva@example.com', '71 98765-4321', 'COREN-1234', '2024-01-10', 1, 'Ativo'),
+    ('João Souza', '23456789012', '1990-10-20', 'M', 'joao.souza@example.com', '71 91234-5678', 'COREN-5678', '2024-02-15', 1, 'Ativo'),
+    ('Ana Oliveira', '34567890123', '1978-03-30', 'F', 'ana.oliveira@example.com', '71 99876-5432', 'COREN-9101', '2024-03-20', 1, 'Suspenso'),
+    ('Carlos Pereira', '45678901234', '1982-07-12', 'M', 'carlos.pereira@example.com', '71 91123-4567', 'COREN-1112', '2024-04-25', 1, 'Ativo'),
+    ('Fernanda Lima', '56789012345', '1995-12-05', 'F', 'fernanda.lima@example.com', '71 95432-1234', 'COREN-1314', '2024-05-10', 1, 'Inativo');
+```
+- Inserir dados na tabela tbl_instituicao
+```
+INSERT INTO tbl_instituicao (nome_instituicao, endereco, telefone, email)
+VALUES
+    ('Universidade Federal da Bahia', 'Rua Barão de Jeremoabo, s/n', '71 3283-6500', 'ufba@ufba.br'),
+    ('Centro Universitário Jorge Amado', 'Av. Luís Viana Filho, 3146', '71 4009-9000', 'unijorge@unijorge.edu.br'),
+    ('Faculdade Bahiana de Medicina', 'Av. Dom João VI, 275', '71 3276-8266', 'bahiana@bahiana.edu.br'),
+    ('Faculdade de Tecnologia e Ciências', 'Av. Paralela, 3170', '71 3206-8000', 'ftc@ftc.edu.br'),
+    ('Universidade Estadual de Feira de Santana', 'Av. Transnordestina, s/n', '75 3161-8000', 'uefs@uefs.br');
+```
+- Inserir dados na tabela tbl_diploma
+```
+INSERT INTO tbl_diploma (ce_id_profissional, ce_id_instituicao, curso, tipo_diploma, data_concessao)
+VALUES
+    (1, 1, 'Enfermagem', 'Bacharelado', '2007-12-15'),
+    (2, 2, 'Enfermagem', 'Bacharelado', '2012-07-20'),
+    (3, 3, 'Enfermagem Obstétrica', 'Especialização', '2005-09-10'),
+    (4, 4, 'Enfermagem Pediátrica', 'Especialização', '2009-05-05'),
+    (5, 5, 'Enfermagem de Saúde Pública', 'Mestrado', '2017-11-25');
+```
+- Inserir dados na tabela tbl_pagamento
+```
+INSERT INTO tbl_pagamento (ce_id_profissional, ano_referencia, valor_pago, data_pagamento, forma_pagamento, status_pagamento)
+VALUES
+    (1, 2024, 150.00, '2024-06-20', 'Boleto', 'Pago'),
+    (2, 2024, 150.00, '2024-06-21', 'Cartão de Crédito', 'Pago'),
+    (3, 2024, 150.00, '2024-06-22', 'Transferência Bancária', 'Pago'),
+    (4, 2024, 150.00, '2024-06-23', 'Boleto', 'Pendente'),
+    (5, 2024, 150.00, '2024-06-24', 'Cartão de Débito', 'Pago');
+```
+- Inserir dados na tabela tbl_processo
+```
+INSERT INTO tbl_processo (tipo_processo, numero_processo, data_abertura, conselho_responsavel, descricao)
+VALUES
+    ('Processo Disciplinar', '12345/2024', '2024-07-01', 1, 'Investigação de conduta profissional.'),
+    ('Processo Administrativo', '67890/2024', '2024-07-05', 1, 'Revisão de documentos.'),
+    ('Processo Ético', '11223/2024', '2024-07-10', 1, 'Denúncia de prática antiética.'),
+    ('Processo Disciplinar', '44556/2024', '2024-07-15', 1, 'Falta grave cometida.'),
+    ('Processo Judicial', '77889/2024', '2024-07-20', 1, 'Ação judicial em andamento.');
+```
+- Inserir dados na tabela tbl_profissional_processo
+```
+INSERT INTO tbl_profissional_processo (ce_id_profissional, ce_id_processo, data_inclusao, funcao_no_processo)
+VALUES
+    (1, 1, '2024-07-02', 'Requerido');
+```
+- Inserir dados na tabela tbl_especialidade
+```
+INSERT INTO tbl_especialidade (ce_id_profissional, area_atuacao, data_conclusao)
+VALUES
+    (1, 'Enfermagem Pediátrica', '2023-05-01'),
+    (2, 'Enfermagem Obstétrica', '2019-10-10'),
+    (3, 'Enfermagem de Saúde Pública', '2018-03-20'),
+    (4, 'Enfermagem Psiquiátrica', '2021-12-15'),
+    (5, 'Enfermagem em Urgência e Emergência', '2022-06-30');
+```
+- Inserir dados na tabela tbl_usuario
+```
+INSERT INTO tbl_usuario (nome_usuario, senha, perfil_acesso)
+VALUES
+    ('admin', 'senha123', 'Administrador'),
+    ('josé_silva', 'senha456', 'Usuário'),
+    ('marlo_oliveira', 'senha789', 'Usuário'),
+    ('carlos_santos', 'senha321', 'Moderador'),
+    ('rafael_lima', 'senha654', 'Usuário');
+```
+- Inserir dados na tabela tbl_agendamento
+```
+INSERT INTO tbl_agendamento (ce_id_profissional, data_hora, motivo, ce_id_usuario)
+VALUES
+    (1, '2024-08-20 09:00:00', 'Emissão de nova carteira profissional.', 1),
+    (2, '2024-08-21 10:00:00', 'Verificação de vencimento de carteira.', 2),
+    (3, '2024-08-22 11:00:00', 'Pagamento de anuidade.', 3),
+    (4, '2024-08-23 12:00:00', 'Revisão de processo disciplinar.', 4),
+    (5, '2024-08-24 13:00:00', 'Consulta sobre atualização cadastral.', 5);
+```
+- Inserir dados na tabela tbl_atendimento
+```
+INSERT INTO tbl_atendimento (ce_id_profissional, data_hora, detalhes, ce_id_usuario)
+VALUES
+    INSERT INTO tbl_atendimento (ce_id_profissional, data_hora, detalhes, ce_id_usuario)
+VALUES
+    (1, '2024-08-20 09:30:00', 'Atendimento para emissão de nova carteira profissional.', 1),
+    (2, '2024-08-21 10:30:00', 'Atendimento para verificação do vencimento da carteira.', 2),
+    (3, '2024-08-22 11:30:00', 'Atendimento para pagamento de anuidade.', 3),
+    (4, '2024-08-23 12:30:00', 'Atendimento para revisão de processo disciplinar.', 4),
+    (5, '2024-08-24 13:30:00', 'Atendimento para consulta sobre atualização cadastral.', 5);
+```
+## 5. OLTP 2: Alterando e excluindo itens:
+
+Comandos SQL para Exclusão, Alteração e Inclusão de Registros
+
+### 1. Exclusão de Registros
+
+sql
+```
+-- Exclusão de um profissional específico
+DELETE FROM tbl_profissional WHERE cpf = '56789012345';
+
+-- Exclusão de um diploma específico
+DELETE FROM tbl_diploma WHERE tipo_diploma = 'Mestrado' AND curso = 'Enfermagem de Saúde Pública';
+
+-- Exclusão de um agendamento específico
+DELETE FROM tbl_agendamento WHERE data_hora = '2024-08-24 13:00:00';
+
+-- Exclusão de um usuário específico
+DELETE FROM tbl_usuario WHERE nome_usuario = 'rafael_lima';
+
+-- Exclusão de um processo específico
+DELETE FROM tbl_processo WHERE numero_processo = '77889/2024';
 ```
