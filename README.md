@@ -78,176 +78,169 @@ O sistema deve garantir a segurança dos dados com controle de acesso baseado em
 - Criação e gerenciamento de perfis de usuário com diferentes níveis de acesso.
 - Definição de permissões de acesso para cada funcionalidade do sistema.
 - Registro de logs de acesso, incluindo data, hora, usuário, ação realizada e IP de origem.
-## 1.3 Delimitação do Mini-Mundo para o Banco de Dados
+# 1.3 Delimitação do Mini-Mundo para o Banco de Dados
 
-### **tbl_profissional**
-Tabela que concentra informações sobre os profissionais de enfermagem cadastrados.
+## Tabelas
 
-- **cp_id_profissional** `[int, incremental]`: Código identificador do profissional.
-- **nome_completo** `[str, 200 caracteres]`: Nome completo do profissional.
-- **cpf** `[str, 11 caracteres]`: CPF do profissional. Único.
-- **data_nascimento** `[date]`: Data de nascimento do profissional.
-- **sexo** `[str, 1 caractere]`: Sexo do profissional.
-- **email** `[str, 100 caracteres]`: Email do profissional.
-- **telefone** `[str, 15 caracteres]`: Telefone do profissional.
-- **registro_coren** `[str, 20 caracteres]`: Número de registro no COREN. Único.
-- **data_inscricao** `[date]`: Data de inscrição no COREN.
-- **conselho_regional** `[str, 50 caracteres]`: Conselho regional do profissional.
-- **situacao_profissional** `[str, 20 caracteres]`: Situação profissional (ativo, suspenso, inativo, cancelado).
+### 1. Tabela `Profissional`
+- **`ce_id_profissional INT AUTO_INCREMENT PRIMARY KEY`**: Identificador único do profissional (chave primária).
+- **`nome VARCHAR(255) NOT NULL`**: Nome do profissional (obrigatório).
+- **`cpf CHAR(11) UNIQUE NOT NULL`**: CPF do profissional (obrigatório e único).
+- **`data_nascimento DATE`**: Data de nascimento do profissional.
+- **`email VARCHAR(255)`**: Email do profissional.
+- **`telefone VARCHAR(20)`**: Telefone de contato do profissional.
+- **`endereco TEXT`**: Endereço do profissional.
 
-### **tbl_instituicao**
-Tabela que concentra informações sobre as instituições de ensino.
+### 2. Tabela `Especialidade`
+- **`cp_id_especialidade INT AUTO_INCREMENT PRIMARY KEY`**: Identificador único da especialidade (chave primária).
+- **`descricao VARCHAR(255) NOT NULL`**: Descrição da especialidade (obrigatório).
 
-- **cp_id_instituicao** `[int, incremental]`: Código identificador da instituição. Único e incremental.
-- **nome_instituicao** `[str, 100 caracteres]`: Nome da instituição de ensino.
-- **endereco** `[str, 200 caracteres]`: Endereço da instituição de ensino.
-- **telefone** `[str, 15 caracteres]`: Telefone da instituição de ensino.
-- **email** `[str, 100 caracteres]`: Email da instituição de ensino.
+### 3. Tabela `Diploma`
+- **`cp_id_diploma INT AUTO_INCREMENT PRIMARY KEY`**: Identificador único do diploma (chave primária).
+- **`nome_instituicao VARCHAR(255) NOT NULL`**: Nome da instituição emissora do diploma (obrigatório).
+- **`data_conclusao DATE`**: Data de conclusão do curso ou formação.
+- **`documento TEXT`**: Documento ou descrição do diploma.
 
-### **tbl_diploma**
-Tabela que concentra informações sobre os diplomas dos profissionais de enfermagem.
+### 4. Tabela `Instituicao`
+- **`cp_id_instituicao INT AUTO_INCREMENT PRIMARY KEY`**: Identificador único da instituição (chave primária).
+- **`nome VARCHAR(255) NOT NULL`**: Nome da instituição (obrigatório).
+- **`endereco TEXT`**: Endereço da instituição.
 
-- **cp_id_diploma** `[int, incremental]`: Código identificador do diploma. Único e incremental.
-- **ce_id_profissional** `[int, 8 bytes]`: Chave estrangeira que define o profissional de enfermagem.
-- **ce_id_instituicao** `[int, 8 bytes]`: Chave estrangeira que define a instituição de ensino.
-- **curso** `[str, 100 caracteres]`: Nome do curso.
-- **tipo_diploma** `[str, 50 caracteres]`: Tipo de diploma.
-- **data_concessao** `[date]`: Data de concessão do diploma.
+### 5. Tabela `Pagamento`
+- **`cp_id_pagamento INT AUTO_INCREMENT PRIMARY KEY`**: Identificador único do pagamento (chave primária).
+- **`descricao VARCHAR(255) NOT NULL`**: Descrição do pagamento (obrigatório).
+- **`detalhes TEXT`**: Detalhes adicionais sobre o pagamento.
 
-### **tbl_pagamento**
-Tabela que concentra informações sobre os pagamentos realizados pelos profissionais.
+### 6. Tabela `Processo_Pagamento`
+- **`cp_id_processo_pagamento INT AUTO_INCREMENT PRIMARY KEY`**: Identificador único do processo de pagamento (chave primária).
+- **`ce_id_profissional INT`**: Chave estrangeira que referencia um profissional.
+- **`cp_id_pagamento INT`**: Chave estrangeira que referencia um pagamento.
+- **`status ENUM('Pendente', 'Pago', 'Cancelado') NOT NULL`**: Status do processo de pagamento (obrigatório).
+- **`FOREIGN KEY (ce_id_profissional) REFERENCES Profissional(ce_id_profissional)`**: Chave estrangeira que referencia a tabela `Profissional`.
+- **`FOREIGN KEY (cp_id_pagamento) REFERENCES Pagamento(cp_id_pagamento)`**: Chave estrangeira que referencia a tabela `Pagamento`.
 
-- **cp_id_pagamento** `[int, incremental]`: Código identificador do pagamento. Único e incremental.
-- **ce_id_profissional** `[int, 8 bytes]`: Chave estrangeira que define o profissional de enfermagem.
-- **ano_referencia** `[int]`: Ano de referência do pagamento.
-- **valor_pago** `[decimal, 10, 2]`: Valor pago pelo profissional.
-- **data_pagamento** `[date]`: Data do pagamento.
-- **forma_pagamento** `[str, 50 caracteres]`: Forma de pagamento.
-- **status_pagamento** `[str, 20 caracteres]`: Status do pagamento (pago, pendente, atrasado).
+### 7. Tabela `Triagem`
+- **`cp_id_triagem INT AUTO_INCREMENT PRIMARY KEY`**: Identificador único da triagem (chave primária).
+- **`ce_id_profissional INT NULL`**: Chave estrangeira opcional que referencia um profissional.
+- **`ce_id_usuario INT NOT NULL`**: Chave estrangeira que referencia um usuário.
+- **`data_hora_triagem DATETIME NOT NULL`**: Data e hora da triagem (obrigatório).
+- **`tipo_atendimento ENUM('Cadastro', 'Renovação', 'Regularização') NOT NULL`**: Tipo de atendimento (obrigatório).
+- **`detalhes TEXT`**: Detalhes adicionais sobre a triagem.
+- **`status_triagem ENUM('Pendente', 'Concluída', 'Cancelada') NOT NULL`**: Status da triagem (obrigatório).
+- **`FOREIGN KEY (ce_id_profissional) REFERENCES Profissional(ce_id_profissional)`**: Chave estrangeira que referencia a tabela `Profissional`.
+- **`FOREIGN KEY (ce_id_usuario) REFERENCES Usuario(ce_id_usuario)`**: Chave estrangeira que referencia a tabela `Usuario`.
 
-### **tbl_processo**
-Tabela que concentra informações sobre os processos envolvendo profissionais de enfermagem.
+### 8. Tabela `Atendimento`
+- **`cp_id_atendimento INT AUTO_INCREMENT PRIMARY KEY`**: Identificador único do atendimento (chave primária).
+- **`ce_id_profissional INT NOT NULL`**: Chave estrangeira que referencia um profissional (obrigatório).
+- **`ce_id_usuario INT NOT NULL`**: Chave estrangeira que referencia um usuário (obrigatório).
+- **`data_hora_atendimento DATETIME NOT NULL`**: Data e hora do atendimento (obrigatório).
+- **`tipo_serviço ENUM('Cadastro', 'Renovação', 'Regularização') NOT NULL`**: Tipo de serviço prestado (obrigatório).
+- **`detalhes TEXT`**: Detalhes adicionais sobre o atendimento.
+- **`status_atendimento ENUM('Pendente', 'Concluída', 'Cancelada') NOT NULL`**: Status do atendimento (obrigatório).
+- **`FOREIGN KEY (ce_id_profissional) REFERENCES Profissional(ce_id_profissional)`**: Chave estrangeira que referencia a tabela `Profissional`.
+- **`FOREIGN KEY (ce_id_usuario) REFERENCES Usuario(ce_id_usuario)`**: Chave estrangeira que referencia a tabela `Usuario`.
 
-- **cp_id_processo** `[int, incremental]`: Código identificador do processo. Único e incremental.
-- **ce_id_profissional** `[int, 8 bytes]`: Chave estrangeira que define o profissional de enfermagem.
-- **tipo_processo** `[str, 50 caracteres]`: Tipo de processo (ético, administrativo, disciplinar).
-- **numero_processo** `[str, 50 caracteres]`: Número do processo.
-- **data_abertura** `[date]`: Data de abertura do processo.
-- **conselho_responsavel** `[str, 50 caracteres]`: Conselho regional responsável pelo processo.
-- **descricao** `[text]`: Descrição do caso.
+### 9. Tabela `Profissional_Especialidade`
+- **`ce_id_profissional INT NOT NULL`**: Chave estrangeira que referencia um profissional (obrigatório).
+- **`cp_id_especialidade INT NOT NULL`**: Chave estrangeira que referencia uma especialidade (obrigatório).
+- **`PRIMARY KEY (ce_id_profissional, cp_id_especialidade)`**: Combinação das chaves como única (relacionamento N:N).
+- **`FOREIGN KEY (ce_id_profissional) REFERENCES Profissional(ce_id_profissional)`**: Chave estrangeira que referencia a tabela `Profissional`.
+- **`FOREIGN KEY (cp_id_especialidade) REFERENCES Especialidade(cp_id_especialidade)`**: Chave estrangeira que referencia a tabela `Especialidade`.
 
-### **tbl_profissional_processo**
-- **ce_id_profissional** `[int, 8 bytes]`: Chave estrangeira que define o profissional de enfermagem.
-- **ce_id_processo** `[int, 8 bytes]`: Chave estrangeira que define o processo.
-- **data_inclusao** `[date]`: Data de inclusão do profissional no processo.
-- **funcao_no_processo** `[str, 100 caracteres]`: Função do profissional no processo.
+### 10. Tabela `Profissional_Diploma`
+- **`ce_id_profissional INT NOT NULL`**: Chave estrangeira que referencia um profissional (obrigatório).
+- **`cp_id_diploma INT NOT NULL`**: Chave estrangeira que referencia um diploma (obrigatório).
+- **`PRIMARY KEY (ce_id_profissional, cp_id_diploma)`**: Combinação das chaves como única (relacionamento N:N).
+- **`FOREIGN KEY (ce_id_profissional) REFERENCES Profissional(ce_id_profissional)`**: Chave estrangeira que referencia a tabela `Profissional`.
+- **`FOREIGN KEY (cp_id_diploma) REFERENCES Diploma(cp_id_diploma)`**: Chave estrangeira que referencia a tabela `Diploma`.
 
-  Detalha a participação do profissional em um processo específico:
-  - **Testemunha**: O profissional pode ser chamado para prestar depoimento sobre um determinado caso.
-  - **Acusado**: O profissional está sendo investigado ou acusado de alguma infração ou má conduta.
-  - **Representante Legal**: O profissional atua como representante legal ou advogado de outro profissional envolvido no processo.
-  - **Investigador**: O profissional faz parte de uma comissão que investiga o caso.
-  - **Perito**: O profissional atua como perito, fornecendo uma análise técnica ou especializada sobre o caso em questão.
-  - **Parte Interessada**: O profissional tem um interesse direto no desfecho do processo, mas não necessariamente está acusado ou testemunhando.
+### 11. Tabela `Profissional_Instituicao`
+- **`ce_id_profissional INT NOT NULL`**: Chave estrangeira que referencia um profissional (obrigatório).
+- **`cp_id_instituicao INT NOT NULL`**: Chave estrangeira que referencia uma instituição (obrigatório).
+- **`PRIMARY KEY (ce_id_profissional, cp_id_instituicao)`**: Combinação das chaves como única (relacionamento N:N).
+- **`FOREIGN KEY (ce_id_profissional) REFERENCES Profissional(ce_id_profissional)`**: Chave estrangeira que referencia a tabela `Profissional`.
+- **`FOREIGN KEY (cp_id_instituicao) REFERENCES Instituicao(cp_id_instituicao)`**: Chave estrangeira que referencia a tabela `Instituicao`.
 
-### **tbl_especialidade**
-Tabela que concentra informações sobre as especialidades dos profissionais de enfermagem.
+### 12. Tabela `Usuario`
+- **`ce_id_usuario INT AUTO_INCREMENT PRIMARY KEY`**: Identificador único do usuário (chave primária).
+- **`nome VARCHAR(255) NOT NULL`**: Nome do usuário (obrigatório).
+- **`email VARCHAR(255) NOT NULL`**: Email do usuário (obrigatório).
+- **`senha VARCHAR(255) NOT NULL`**: Senha do usuário (obrigatório).
+- **`perfil ENUM('Admin', 'Usuario') NOT NULL`**: Perfil do usuário (obrigatório).
 
-- **cp_id_especialidade** `[int, incremental]`: Código identificador da especialidade. Único e incremental.
-- **ce_id_profissional** `[int, 8 bytes]`: Chave estrangeira que define o profissional de enfermagem.
-- **area_atuacao** `[str, 100 caracteres]`: Área de atuação.
-- **data_conclusao** `[date]`: Data de conclusão da especialidade.
-
-### **tbl_usuario**
-Tabela que concentra informações sobre os usuários que controlam o sistema.
-
-- **cp_id_usuario** `[int, incremental]`: Código identificador do usuário. Único.
-- **nome_usuario** `[str, 100 caracteres]`: Nome do usuário.
-- **senha** `[str, 255 caracteres]`: Senha do usuário.
-- **perfil_acesso** `[str, 50 caracteres]`: Perfil de acesso do usuário.
-
-### **tbl_atendimento**
-Tabela para manutenção do histórico de atendimentos realizados para cada profissional.
-
-- **cp_id_atendimento** `[int, incremental]`: Código identificador do atendimento. Único e incremental.
-- **ce_id_profissional** `[int, 8 bytes]`: Chave estrangeira que define o profissional de enfermagem.
-- **data_hora** `[datetime]`: Data e hora do atendimento.
-- **detalhes** `[text]`: Detalhes do atendimento realizado.
-- **ce_id_usuario** `[int, 8 bytes]`: Chave estrangeira que define o usuário (atendente) que realizou o atendimento.
-
-### **tbl_agendamento**
-- **cp_id_agendamento** `[int, incremental]`: Código identificador do agendamento. Único e incremental.
-- **ce_id_profissional** `[int, 8 bytes]`: Chave estrangeira que define o profissional de enfermagem.
-- **data_hora** `[datetime]`: Data e hora agendada para o atendimento.
-- **motivo** `[text]`: Motivo do agendamento.
-- **ce_id_usuario** `[int, 8 bytes]`: Chave estrangeira que define o usuário que realizou o agendamento.
-
-### **tbl_conselho_regional**
-Tabela que concentra informações sobre o conselho regional de enfermagem (COREN-BA).
-
-- **cp_id_conselho** `[int, incremental]`: Código identificador do conselho. Único.
-- **nome** `[str, 100 caracteres]`: Nome do conselho.
-- **endereco** `[str, 200 caracteres]`: Endereço do conselho.
-- **telefone** `[str, 15 caracteres]`: Telefone do conselho.
-- **email** `[str, 100 caracteres]`: Email do conselho.
-- **website** `[str, 100 caracteres]`: Website do conselho.
-
-### **tbl_cofen**
-Tabela que concentra informações sobre o Conselho Federal de Enfermagem (COFEN).
-
-- **cp_id_cofen** `[int, incremental]`: Código identificador do COFEN. Único.
-- **nome** `[str, 100 caracteres]`: Nome do COFEN.
-- **endereco** `[str, 200 caracteres]`: Endereço do COFEN.
-- **telefone** `[str, 15 caracteres]`: Telefone do COFEN.
-- **email** `[str, 100 caracteres]`: Email do COFEN.
-- **website** `[str, 100 caracteres]`: Website do COFEN.
 
 ## Relações entre as Entidades
 
-### Relação entre `tbl_profissional` e `tbl_diploma`
-- Um profissional pode ter um ou vários diplomas.
-- Cada diploma pertence a um único profissional.
+## 1. Profissional e Especialidade
+- **Relação:** Muitos para Muitos (N:N)
+- **Descrição:** 
+  - Um profissional pode ter uma ou várias especialidades.
+  - Uma especialidade pode ser atribuída a um ou vários profissionais.
+- **Tabela Intermediária:** Profissional_Especialidade
 
-### Relação entre `tbl_diploma` e `tbl_instituicao`
-- Um diploma é emitido por uma única instituição.
-- Uma instituição pode emitir vários diplomas.
-- As relações entre diplomas e instituições devem registrar o curso e a data de concessão.
+## 2. Profissional e Diploma
+- **Relação:** Muitos para Muitos (N:N)
+- **Descrição:**
+  - Um profissional pode ter um ou vários diplomas.
+  - Um diploma pode ser associado a um ou vários profissionais.
+- **Tabela Intermediária:** Profissional_Diploma
 
-### Relação entre `tbl_pagamento` e `tbl_profissional`
-- Um profissional pode ter nenhum ou vários pagamentos.
-- Cada pagamento pertence a um único profissional.
-- As relações entre pagamentos e profissionais devem registrar o ano de referência, valor pago, data de pagamento, forma de pagamento e status do pagamento.
+## 3. Profissional e Instituição
+- **Relação:** Muitos para Muitos (N:N)
+- **Descrição:**
+  - Um profissional pode estar associado a uma ou várias instituições.
+  - Uma instituição pode estar associada a um ou vários profissionais.
+- **Tabela Intermediária:** Profissional_Instituicao
 
-### Relação entre `tbl_processo` e `tbl_profissional_processo`
-- Um profissional pode estar envolvido em vários processos.
-- Um processo pode envolver um ou mais profissionais.
-- As relações entre processos e profissionais devem registrar a função do profissional no processo e a data de inclusão.
+## 4. Profissional e Processo_Pagamento
+- **Relação:** Um para Muitos (1:N)
+- **Descrição:**
+  - Um profissional pode ter um ou vários processos de pagamento.
+  - Cada processo de pagamento é atribuído a um único profissional.
+- **Chave Estrangeira:** ce_id_profissional na tabela Processo_Pagamento
 
-### Relação entre `tbl_profissional` e `tbl_especialidade`
-- Um profissional pode ter várias especialidades.
-- Cada especialidade pertence a um único profissional.
+## 5. Pagamento e Processo_Pagamento
+- **Relação:** Um para Muitos (1:N)
+- **Descrição:**
+  - Um pagamento pode ser registrado em um ou vários processos de pagamento.
+  - Um processo de pagamento está relacionado a um único pagamento.
+- **Chave Estrangeira:** cp_id_pagamento na tabela Processo_Pagamento
 
-### Relação entre `tbl_profissional` e `tbl_atendimento`
-- Um profissional pode ter um ou vários atendimentos.
-- Cada atendimento pertence a um único profissional.
-- As relações entre atendimentos e profissionais devem registrar a data, hora e detalhes do atendimento.
+## 6. Triagem e Profissional
+- **Relação:** Um para Muitos (1:N)
+- **Descrição:**
+  - Uma triagem pode estar associada a um único profissional ou nenhum.
+  - Um profissional pode passar por uma ou várias triagens.
+- **Chave Estrangeira:** ce_id_profissional (opcional) na tabela Triagem
 
-### Relação entre `tbl_atendimento` e `tbl_usuario`
-- Um atendimento é realizado por um único usuário.
-- Um usuário pode realizar vários atendimentos.
+## 7. Triagem e Usuario
+- **Relação:** Um para Muitos (1:N)
+- **Descrição:**
+  - Uma triagem é sempre realizada por um único usuário.
+  - Um usuário pode realizar várias triagens.
+- **Chave Estrangeira:** ce_id_usuario na tabela Triagem
 
-### Relação entre `tbl_agendamento` e `tbl_profissional`
-- Um profissional pode ter um ou vários agendamentos.
-- Cada agendamento pertence a um único profissional.
-- As relações entre agendamentos e profissionais devem registrar a data, hora e motivo do agendamento.
+## 8. Atendimento e Profissional
+- **Relação:** Um para Muitos (1:N)
+- **Descrição:**
+  - Um atendimento é sempre relacionado a um único profissional.
+  - Um profissional pode ser atendido várias vezes.
+- **Chave Estrangeira:** ce_id_profissional na tabela Atendimento
 
-### Relação entre `tbl_agendamento` e `tbl_usuario`
-- Um agendamento é realizado por um único usuário.
-- Um usuário pode realizar vários agendamentos.
+## 9. Atendimento e Usuario
+- **Relação:** Um para Muitos (1:N)
+- **Descrição:**
+  - Um atendimento é realizado por um único usuário.
+  - Um usuário pode realizar vários atendimentos.
+- **Chave Estrangeira:** ce_id_usuario na tabela Atendimento
 
-### Relação entre `tbl_conselho_regional` e `tbl_profissional`
-- Um profissional pertence a um único conselho regional.
-- Um conselho regional pode ter vários profissionais associados.
+## 10. Usuario
+- **Relação:** Um para Muitos (1:N) com as tabelas Triagem e Atendimento
+- **Descrição:**
+  - Um usuário pode realizar várias triagens e atendimentos.
+  - Cada triagem ou atendimento é registrado por um único usuário.
+
 
 *Diagrama conceitual*
 ![Diagrama Conceitual](./img/diagrama_inicial/conceitual.png)
@@ -297,11 +290,29 @@ CREATE TABLE tbl_usuario (
 ---
 ### *Tela Inicial*
 Após acesso ao sistema, uma nova tela irá aparecer com um *menu* na parte superior:
-|PROFISSIONAL|AGENDAMENTO|PROCESSOS| *menu*
-|------------|-----------|---------|
-|cadastro|criar|consulta|
-|consulta|consulta||
 
+```mermaid
+flowchart TD
+    A[Profissional] --> B(cadastro) --> C(consulta)
+    D[Agendamento] --> E(novo) --> F(consulta)
+    G[Processos] --> H(cadastro) --> I(consulta)
+```
+>Menu `Profissional` terá submenus para acesso as telas de `consulta` e `cadastro`.
+
+Tela de Consulta e Edição de Profissionais
+
+Componentes:
+
+    Campo de Busca: Um campo para buscar profissionais pelo nome ou CPF.
+    Lista de Resultados: Exibe uma lista de profissionais encontrados com base nos critérios de busca.
+    Botões de Ação: Botões de "Editar" e "Excluir" ao lado de cada profissional listado.
+
+Fluxo:
+
+    O usuário insere um nome ou CPF no campo de busca e clica em "Buscar".
+    O sistema exibe os resultados na lista de resultados.
+    Ao clicar em "Editar", o usuário é levado para a Tela de Edição de Profissionais com os dados do profissional pré-preenchidos.
+    Ao clicar em "Excluir", o sistema solicita uma confirmação antes de excluir o profissional do banco de dados.
 
 
 - Tabela Profissional
