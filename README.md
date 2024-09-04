@@ -421,6 +421,7 @@ CREATE TABLE Pagamento (
 );
 
 ```
+
 - *Tabela Processo_Pagamento*
 ```
 CREATE TABLE Processo_Pagamento (
@@ -638,619 +639,14 @@ No código SQL já foram denifidas. Abaixo um esquema explicativo:
 
 - Inserir dados na tabela COFEN
 ```
-I-- phpMyAdmin SQL Dump
--- version 5.2.1deb3
--- https://www.phpmyadmin.net/
---
--- Host: localhost:3306
--- Tempo de geração: 03/09/2024 às 22:27
--- Versão do servidor: 8.4.2
--- Versão do PHP: 8.2.23
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Banco de dados: `coren_ba`
---
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `Cofen`
---
-
-CREATE TABLE `Cofen` (
-  `id` int NOT NULL,
-  `id_corenba` int DEFAULT NULL,
-  `nome` varchar(255) NOT NULL,
-  `endereco` text,
-  `telefone` varchar(20) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `website` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Despejando dados para a tabela `Cofen`
---
-
 INSERT INTO `Cofen` (`id`, `id_corenba`, `nome`, `endereco`, `telefone`, `email`, `website`) VALUES
 (1, NULL, 'Conselho Federal de Enfermagem', 'SCLN Qd. 304, Lote 09, Bl. E, Asa Norte, Brasília – DF', '61 3329-5800', 'contato@cofen.gov.br', 'www.cofen.gov.br');
 
---
--- Índices para tabelas despejadas
---
-
---
--- Índices de tabela `Cofen`
---
-ALTER TABLE `Cofen`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_corenba` (`id_corenba`);
-
---
--- AUTO_INCREMENT para tabelas despejadas
---
-
---
--- AUTO_INCREMENT de tabela `Cofen`
---
-ALTER TABLE `Cofen`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- Restrições para tabelas despejadas
---
-
---
--- Restrições para tabelas `Cofen`
---
-ALTER TABLE `Cofen`
-  ADD CONSTRAINT `Cofen_ibfk_1` FOREIGN KEY (`id_corenba`) REFERENCES `CorenBA` (`id`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 ```
 - Inserir dados na tabela COREN-BA
 ```
-I-- phpMyAdmin SQL Dump
--- version 5.2.1deb3
--- https://www.phpmyadmin.net/
---
--- Host: localhost:3306
--- Tempo de geração: 03/09/2024 às 10:58
--- Versão do servidor: 8.4.2
--- Versão do PHP: 8.2.23
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Banco de dados: `coren_ba`
---
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `tbl_agendamento`
---
-
-CREATE TABLE `tbl_agendamento` (
-  `cp_id_agendamento` int NOT NULL,
-  `ce_id_profissional` int NOT NULL,
-  `data_hora` datetime NOT NULL,
-  `motivo` text COLLATE utf8mb4_general_ci,
-  `ce_id_usuario` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `tbl_atendimento`
---
-
-CREATE TABLE `tbl_atendimento` (
-  `cp_id_atendimento` int NOT NULL,
-  `ce_id_profissional` int NOT NULL,
-  `data_hora` datetime NOT NULL,
-  `detalhes` text COLLATE utf8mb4_general_ci,
-  `ce_id_usuario` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tbl_atendimento`
---
-
-INSERT INTO `tbl_atendimento` (`cp_id_atendimento`, `ce_id_profissional`, `data_hora`, `detalhes`, `ce_id_usuario`) VALUES
-(1, 1, '2024-08-20 09:30:00', 'Atendimento para emissão de nova carteira profissional.', 1),
-(2, 2, '2024-08-21 10:30:00', 'Atendimento para verificação do vencimento da carteira.', 2),
-(3, 3, '2024-08-22 11:30:00', 'Atendimento para pagamento de anuidade.', 3),
-(4, 4, '2024-08-23 12:30:00', 'Atendimento para revisão de processo disciplinar.', 4),
-(5, 5, '2024-08-24 13:30:00', 'Atendimento para consulta sobre atualização cadastral.', 5);
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `tbl_cofen`
---
-
-CREATE TABLE `tbl_cofen` (
-  `cp_id_cofen` int NOT NULL,
-  `nome` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `endereco` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `telefone` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `website` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tbl_cofen`
---
-
-INSERT INTO `tbl_cofen` (`cp_id_cofen`, `nome`, `endereco`, `telefone`, `email`, `website`) VALUES
-(1, 'Conselho Federal de Enfermagem', 'Rua do Cofen, 123', '21 99999-0000', 'contato@cofen.gov.br', 'www.cofen.gov.br');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `tbl_conselho_regional`
---
-
-CREATE TABLE `tbl_conselho_regional` (
-  `cp_id_conselho` int NOT NULL,
-  `nome` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `endereco` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `telefone` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `website` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ce_id_cofen` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tbl_conselho_regional`
---
-
-INSERT INTO `tbl_conselho_regional` (`cp_id_conselho`, `nome`, `endereco`, `telefone`, `email`, `website`, `ce_id_cofen`) VALUES
-(1, 'COREN-Bahia', 'R. Gen. Labatut, 273', '71 88888-0000', 'contato@corenba.gov.br', 'www.corenba.gov.br', 1);
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `tbl_diploma`
---
-
-CREATE TABLE `tbl_diploma` (
-  `cp_id_diploma` int NOT NULL,
-  `ce_id_profissional` int NOT NULL,
-  `ce_id_instituicao` int NOT NULL,
-  `curso` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `tipo_diploma` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `data_concessao` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tbl_diploma`
---
-
-INSERT INTO `tbl_diploma` (`cp_id_diploma`, `ce_id_profissional`, `ce_id_instituicao`, `curso`, `tipo_diploma`, `data_concessao`) VALUES
-(1, 1, 1, 'Enfermagem', 'Bacharelado', '2007-12-15'),
-(2, 2, 2, 'Enfermagem', 'Bacharelado', '2012-07-20'),
-(3, 3, 3, 'Enfermagem Obstétrica', 'Especialização', '2005-09-10'),
-(4, 4, 4, 'Enfermagem Pediátrica', 'Especialização', '2009-05-05'),
-(5, 5, 5, 'Enfermagem de Saúde Pública', 'Mestrado', '2017-11-25');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `tbl_especialidade`
---
-
-CREATE TABLE `tbl_especialidade` (
-  `cp_id_especialidade` int NOT NULL,
-  `ce_id_profissional` int NOT NULL,
-  `area_atuacao` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `data_conclusao` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tbl_especialidade`
---
-
-INSERT INTO `tbl_especialidade` (`cp_id_especialidade`, `ce_id_profissional`, `area_atuacao`, `data_conclusao`) VALUES
-(1, 1, 'Enfermagem Pediátrica', '2023-05-01'),
-(2, 2, 'Enfermagem Obstétrica', '2019-10-10'),
-(3, 3, 'Enfermagem de Saúde Pública', '2018-03-20'),
-(4, 4, 'Enfermagem Psiquiátrica', '2021-12-15'),
-(5, 5, 'Enfermagem em Urgência e Emergência', '2022-06-30');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `tbl_instituicao`
---
-
-CREATE TABLE `tbl_instituicao` (
-  `cp_id_instituicao` int NOT NULL,
-  `nome_instituicao` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `endereco` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `telefone` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tbl_instituicao`
---
-
-INSERT INTO `tbl_instituicao` (`cp_id_instituicao`, `nome_instituicao`, `endereco`, `telefone`, `email`) VALUES
-(1, 'Universidade Federal da Bahia', 'Rua Barão de Jeremoabo, s/n', '71 3283-6500', 'ufba@ufba.br'),
-(2, 'Centro Universitário Jorge Amado', 'Av. Luís Viana Filho, 3146', '71 4009-9000', 'unijorge@unijorge.edu.br'),
-(3, 'Faculdade Bahiana de Medicina', 'Av. Dom João VI, 275', '71 3276-8266', 'bahiana@bahiana.edu.br'),
-(4, 'Faculdade de Tecnologia e Ciências', 'Av. Paralela, 3170', '71 3206-8000', 'ftc@ftc.edu.br'),
-(5, 'Universidade Estadual de Feira de Santana', 'Av. Transnordestina, s/n', '75 3161-8000', 'uefs@uefs.br');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `tbl_pagamento`
---
-
-CREATE TABLE `tbl_pagamento` (
-  `cp_id_pagamento` int NOT NULL,
-  `ce_id_profissional` int NOT NULL,
-  `ano_referencia` int NOT NULL,
-  `valor_pago` decimal(10,2) NOT NULL,
-  `data_pagamento` date NOT NULL,
-  `forma_pagamento` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status_pagamento` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tbl_pagamento`
---
-
-INSERT INTO `tbl_pagamento` (`cp_id_pagamento`, `ce_id_profissional`, `ano_referencia`, `valor_pago`, `data_pagamento`, `forma_pagamento`, `status_pagamento`) VALUES
-(1, 1, 2024, 150.00, '2024-06-20', 'Boleto', 'Pago'),
-(2, 2, 2024, 150.00, '2024-06-21', 'Cartão de Crédito', 'Pago'),
-(3, 3, 2024, 150.00, '2024-06-22', 'Transferência Bancária', 'Pago'),
-(4, 4, 2024, 150.00, '2024-06-23', 'Boleto', 'Pendente'),
-(5, 5, 2024, 150.00, '2024-06-24', 'Cartão de Débito', 'Pago');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `tbl_processo`
---
-
-CREATE TABLE `tbl_processo` (
-  `cp_id_processo` int NOT NULL,
-  `tipo_processo` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `numero_processo` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `data_abertura` date NOT NULL,
-  `conselho_responsavel` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descricao` text COLLATE utf8mb4_general_ci
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tbl_processo`
---
-
-INSERT INTO `tbl_processo` (`cp_id_processo`, `tipo_processo`, `numero_processo`, `data_abertura`, `conselho_responsavel`, `descricao`) VALUES
-(1, 'Processo Disciplinar', '12345/2024', '2024-07-01', '1', 'Investigação de conduta profissional.'),
-(2, 'Processo Administrativo', '67890/2024', '2024-07-05', '1', 'Revisão de documentos.'),
-(3, 'Processo Ético', '11223/2024', '2024-07-10', '1', 'Denúncia de prática antiética.'),
-(4, 'Processo Disciplinar', '44556/2024', '2024-07-15', '1', 'Falta grave cometida.'),
-(5, 'Processo Judicial', '77889/2024', '2024-07-20', '1', 'Ação judicial em andamento.');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `tbl_profissional`
---
-
-CREATE TABLE `tbl_profissional` (
-  `cp_id_profissional` int NOT NULL,
-  `nome_completo` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
-  `cpf` varchar(11) COLLATE utf8mb4_general_ci NOT NULL,
-  `data_nascimento` date NOT NULL,
-  `sexo` char(1) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `telefone` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `registro_coren` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `data_inscricao` date NOT NULL,
-  `conselho_regional` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `situacao_profissional` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `ce_id_conselho` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tbl_profissional`
---
-
-INSERT INTO `tbl_profissional` (`cp_id_profissional`, `nome_completo`, `cpf`, `data_nascimento`, `sexo`, `email`, `telefone`, `registro_coren`, `data_inscricao`, `conselho_regional`, `situacao_profissional`, `ce_id_conselho`) VALUES
-(1, 'Maria Silva', '12345678901', '1985-05-15', 'F', 'maria.silva@example.com', '71 98765-4321', 'COREN-1234', '2024-01-10', '1', 'Ativo', NULL),
-(2, 'João Souza', '23456789012', '1990-10-20', 'M', 'joao.souza@example.com', '71 91234-5678', 'COREN-5678', '2024-02-15', '1', 'Ativo', NULL),
-(3, 'Ana Oliveira', '34567890123', '1978-03-30', 'F', 'ana.oliveira@example.com', '71 99876-5432', 'COREN-9101', '2024-03-20', '1', 'Suspenso', NULL),
-(4, 'Carlos Pereira', '45678901234', '1982-07-12', 'M', 'carlos.pereira@example.com', '71 91123-4567', 'COREN-1112', '2024-04-25', '1', 'Ativo', NULL),
-(5, 'Fernanda Lima', '56789012345', '1995-12-05', 'F', 'fernanda.lima@example.com', '71 95432-1234', 'COREN-1314', '2024-05-10', '1', 'Inativo', NULL);
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `tbl_profissional_processo`
---
-
-CREATE TABLE `tbl_profissional_processo` (
-  `ce_id_profissional` int NOT NULL,
-  `ce_id_processo` int NOT NULL,
-  `data_inclusao` date NOT NULL,
-  `funcao_no_processo` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tbl_profissional_processo`
---
-
-INSERT INTO `tbl_profissional_processo` (`ce_id_profissional`, `ce_id_processo`, `data_inclusao`, `funcao_no_processo`) VALUES
-(1, 1, '2024-07-02', 'Requerido');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `tbl_usuario`
---
-
-CREATE TABLE `tbl_usuario` (
-  `cp_id_usuario` int NOT NULL,
-  `nome_usuario` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `senha` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `perfil_acesso` varchar(50) COLLATE utf8mb4_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tbl_usuario`
---
-
-INSERT INTO `tbl_usuario` (`cp_id_usuario`, `nome_usuario`, `senha`, `perfil_acesso`) VALUES
-(1, 'admin', 'senha123', 'Administrador'),
-(2, 'josé_silva', 'senha456', 'Usuário'),
-(3, 'marlo_oliveira', 'senha789', 'Usuário'),
-(4, 'carlos_santos', 'senha321', 'Moderador'),
-(5, 'rafael_lima', 'senha654', 'Usuário');
-
---
--- Índices para tabelas despejadas
---
-
---
--- Índices de tabela `tbl_agendamento`
---
-ALTER TABLE `tbl_agendamento`
-  ADD PRIMARY KEY (`cp_id_agendamento`),
-  ADD KEY `ce_id_profissional` (`ce_id_profissional`),
-  ADD KEY `ce_id_usuario` (`ce_id_usuario`);
-
---
--- Índices de tabela `tbl_atendimento`
---
-ALTER TABLE `tbl_atendimento`
-  ADD PRIMARY KEY (`cp_id_atendimento`),
-  ADD KEY `ce_id_profissional` (`ce_id_profissional`),
-  ADD KEY `ce_id_usuario` (`ce_id_usuario`);
-
---
--- Índices de tabela `tbl_cofen`
---
-ALTER TABLE `tbl_cofen`
-  ADD PRIMARY KEY (`cp_id_cofen`);
-
---
--- Índices de tabela `tbl_conselho_regional`
---
-ALTER TABLE `tbl_conselho_regional`
-  ADD PRIMARY KEY (`cp_id_conselho`),
-  ADD KEY `fk_conselho_cofen` (`ce_id_cofen`);
-
---
--- Índices de tabela `tbl_diploma`
---
-ALTER TABLE `tbl_diploma`
-  ADD PRIMARY KEY (`cp_id_diploma`),
-  ADD KEY `ce_id_profissional` (`ce_id_profissional`),
-  ADD KEY `ce_id_instituicao` (`ce_id_instituicao`);
-
---
--- Índices de tabela `tbl_especialidade`
---
-ALTER TABLE `tbl_especialidade`
-  ADD PRIMARY KEY (`cp_id_especialidade`),
-  ADD KEY `ce_id_profissional` (`ce_id_profissional`);
-
---
--- Índices de tabela `tbl_instituicao`
---
-ALTER TABLE `tbl_instituicao`
-  ADD PRIMARY KEY (`cp_id_instituicao`);
-
---
--- Índices de tabela `tbl_pagamento`
---
-ALTER TABLE `tbl_pagamento`
-  ADD PRIMARY KEY (`cp_id_pagamento`),
-  ADD KEY `ce_id_profissional` (`ce_id_profissional`);
-
---
--- Índices de tabela `tbl_processo`
---
-ALTER TABLE `tbl_processo`
-  ADD PRIMARY KEY (`cp_id_processo`);
-
---
--- Índices de tabela `tbl_profissional`
---
-ALTER TABLE `tbl_profissional`
-  ADD PRIMARY KEY (`cp_id_profissional`),
-  ADD UNIQUE KEY `cpf` (`cpf`),
-  ADD UNIQUE KEY `registro_coren` (`registro_coren`),
-  ADD KEY `fk_profissional_conselho` (`ce_id_conselho`);
-
---
--- Índices de tabela `tbl_profissional_processo`
---
-ALTER TABLE `tbl_profissional_processo`
-  ADD PRIMARY KEY (`ce_id_profissional`,`ce_id_processo`),
-  ADD KEY `ce_id_processo` (`ce_id_processo`);
-
---
--- Índices de tabela `tbl_usuario`
---
-ALTER TABLE `tbl_usuario`
-  ADD PRIMARY KEY (`cp_id_usuario`);
-
---
--- AUTO_INCREMENT para tabelas despejadas
---
-
---
--- AUTO_INCREMENT de tabela `tbl_agendamento`
---
-ALTER TABLE `tbl_agendamento`
-  MODIFY `cp_id_agendamento` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de tabela `tbl_atendimento`
---
-ALTER TABLE `tbl_atendimento`
-  MODIFY `cp_id_atendimento` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de tabela `tbl_cofen`
---
-ALTER TABLE `tbl_cofen`
-  MODIFY `cp_id_cofen` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de tabela `tbl_conselho_regional`
---
-ALTER TABLE `tbl_conselho_regional`
-  MODIFY `cp_id_conselho` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de tabela `tbl_diploma`
---
-ALTER TABLE `tbl_diploma`
-  MODIFY `cp_id_diploma` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de tabela `tbl_especialidade`
---
-ALTER TABLE `tbl_especialidade`
-  MODIFY `cp_id_especialidade` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de tabela `tbl_instituicao`
---
-ALTER TABLE `tbl_instituicao`
-  MODIFY `cp_id_instituicao` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de tabela `tbl_pagamento`
---
-ALTER TABLE `tbl_pagamento`
-  MODIFY `cp_id_pagamento` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de tabela `tbl_processo`
---
-ALTER TABLE `tbl_processo`
-  MODIFY `cp_id_processo` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de tabela `tbl_profissional`
---
-ALTER TABLE `tbl_profissional`
-  MODIFY `cp_id_profissional` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de tabela `tbl_usuario`
---
-ALTER TABLE `tbl_usuario`
-  MODIFY `cp_id_usuario` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- Restrições para tabelas despejadas
---
-
---
--- Restrições para tabelas `tbl_agendamento`
---
-ALTER TABLE `tbl_agendamento`
-  ADD CONSTRAINT `tbl_agendamento_ibfk_1` FOREIGN KEY (`ce_id_profissional`) REFERENCES `tbl_profissional` (`cp_id_profissional`),
-  ADD CONSTRAINT `tbl_agendamento_ibfk_2` FOREIGN KEY (`ce_id_usuario`) REFERENCES `tbl_usuario` (`cp_id_usuario`);
-
---
--- Restrições para tabelas `tbl_atendimento`
---
-ALTER TABLE `tbl_atendimento`
-  ADD CONSTRAINT `tbl_atendimento_ibfk_2` FOREIGN KEY (`ce_id_usuario`) REFERENCES `tbl_usuario` (`cp_id_usuario`);
-
---
--- Restrições para tabelas `tbl_conselho_regional`
---
-ALTER TABLE `tbl_conselho_regional`
-  ADD CONSTRAINT `fk_conselho_cofen` FOREIGN KEY (`ce_id_cofen`) REFERENCES `tbl_cofen` (`cp_id_cofen`);
-
---
--- Restrições para tabelas `tbl_diploma`
---
-ALTER TABLE `tbl_diploma`
-  ADD CONSTRAINT `tbl_diploma_ibfk_1` FOREIGN KEY (`ce_id_profissional`) REFERENCES `tbl_profissional` (`cp_id_profissional`),
-  ADD CONSTRAINT `tbl_diploma_ibfk_2` FOREIGN KEY (`ce_id_instituicao`) REFERENCES `tbl_instituicao` (`cp_id_instituicao`);
-
---
--- Restrições para tabelas `tbl_especialidade`
---
-ALTER TABLE `tbl_especialidade`
-  ADD CONSTRAINT `tbl_especialidade_ibfk_1` FOREIGN KEY (`ce_id_profissional`) REFERENCES `tbl_profissional` (`cp_id_profissional`);
-
---
--- Restrições para tabelas `tbl_pagamento`
---
-ALTER TABLE `tbl_pagamento`
-  ADD CONSTRAINT `tbl_pagamento_ibfk_1` FOREIGN KEY (`ce_id_profissional`) REFERENCES `tbl_profissional` (`cp_id_profissional`);
-
---
--- Restrições para tabelas `tbl_profissional`
---
-ALTER TABLE `tbl_profissional`
-  ADD CONSTRAINT `fk_profissional_conselho` FOREIGN KEY (`ce_id_conselho`) REFERENCES `tbl_conselho_regional` (`cp_id_conselho`);
-
---
--- Restrições para tabelas `tbl_profissional_processo`
---
-ALTER TABLE `tbl_profissional_processo`
-  ADD CONSTRAINT `tbl_profissional_processo_ibfk_1` FOREIGN KEY (`ce_id_profissional`) REFERENCES `tbl_profissional` (`cp_id_profissional`),
-  ADD CONSTRAINT `tbl_profissional_processo_ibfk_2` FOREIGN KEY (`ce_id_processo`) REFERENCES `tbl_processo` (`cp_id_processo`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+INSERT INTO `CorenBA` (`id`, `nome`, `endereco`, `telefone`, `email`, `website`, `cofen_id`) VALUES
+(5, 'Coren-BA', 'R. Gen. Labatut, 273 - Barris, Salvador - BA, 40070-100', '(71) 3277-3100', 'contato@coren-ba.org.br', 'www.coren-ba.org.br', 1);
 ```
 - Inserir dados na tabela PROFISSIONAL
 ```
@@ -1356,25 +752,74 @@ INSERT INTO `Profissional` (`ce_id_profissional`, `nome`, `cpf`, `data_nasciment
 (99, 'Steward Sommerlie', '2757121987', '2023-09-28', 'ssommerlie2q@microsoft.com', '105-537-3977', '11th Floor', NULL),
 (100, 'Min Le Fleming', '8531887607', '2023-12-27', 'mle2r@google.co.uk', '787-335-0766', 'PO Box 78872', NULL);
 ```
-- Inserir dados na tabela tbl_instituicao
+- Inserir dados na tabela INSTITUICAO
 ```
-INSERT INTO tbl_instituicao (nome_instituicao, endereco, telefone, email)
-VALUES
-    ('Universidade Federal da Bahia', 'Rua Barão de Jeremoabo, s/n', '71 3283-6500', 'ufba@ufba.br'),
-    ('Centro Universitário Jorge Amado', 'Av. Luís Viana Filho, 3146', '71 4009-9000', 'unijorge@unijorge.edu.br'),
-    ('Faculdade Bahiana de Medicina', 'Av. Dom João VI, 275', '71 3276-8266', 'bahiana@bahiana.edu.br'),
-    ('Faculdade de Tecnologia e Ciências', 'Av. Paralela, 3170', '71 3206-8000', 'ftc@ftc.edu.br'),
-    ('Universidade Estadual de Feira de Santana', 'Av. Transnordestina, s/n', '75 3161-8000', 'uefs@uefs.br');
+IINSERT INTO `Instituicao` (`cp_id_instituicao`, `nome`, `endereco`) VALUES
+(1, 'Instituto São João', 'Rua das Flores, 123, Centro'),
+(2, 'Escola Técnica do Porto', 'Avenida Brasil, 456, Bairro Jardim'),
+(3, 'Colégio Universitário', 'Praça da República, 789, Centro Histórico'),
+(4, 'Centro Educacional Nova Era', 'Rua das Palmeiras, 101, Jardim das Acácias'),
+(5, 'Instituto de Ensino Moderno', 'Avenida dos Estados, 202, Vila Nova'),
+(6, 'Escola de Tecnologia Avançada', 'Rua das Oliveiras, 303, Bairro dos Pinheiros'),
+(7, 'Colégio São Pedro', 'Rua das Orquídeas, 404, Parque das Rosas'),
+(8, 'Instituto de Ciências Sociais', 'Avenida das Nações, 505, Centro'),
+(9, 'Escola Profissionalizante Norte', 'Rua do Sol, 606, Bairro Esperança'),
+(10, 'Centro de Educação e Cultura', 'Rua das Margaridas, 707, Jardim das Flores'),
+(11, 'Instituto de Pesquisa Tecnológica', 'Avenida da Inovação, 808, Vila Verde'),
+(12, 'Colégio da Juventude', 'Rua dos Lírios, 909, Centro'),
+(13, 'Instituto de Estudos Avançados', 'Avenida dos Trabalhadores, 1010, Bairro Industrial'),
+(14, 'Escola Secundária de São Paulo', 'Rua do Progresso, 1111, Vila São Jorge'),
+(15, 'Centro de Formação Profissional', 'Rua das Aroeiras, 1212, Jardim do Sol'),
+(16, 'Instituto de Educação e Tecnologia', 'Avenida das Indústrias, 1313, Bairro dos Navegantes'),
+(17, 'Colégio Municipal do Futuro', 'Rua das Palmas, 1414, Centro'),
+(18, 'Instituto de Ensino Superior', 'Rua da Proclamação, 1515, Bairro Esperança'),
+(19, 'Escola de Formação Técnica', 'Avenida da Tecnologia, 1616, Jardim das Acácias'),
+(20, 'Centro Educacional São Jorge', 'Rua do Comércio, 1717, Vila Nova'),
+(21, 'Instituto de Ensino Completo', 'Rua do Desenvolvimento, 1818, Centro Histórico'),
+(22, 'Colégio da Inovação', 'Avenida das Flores, 1919, Bairro Jardim'),
+(23, 'Instituto de Formação Profissional', 'Rua do Conhecimento, 2020, Jardim das Rosas'),
+(24, 'Escola Técnica de São Pedro', 'Rua dos Anjos, 2121, Centro'),
+(25, 'Centro de Estudos Avançados', 'Avenida das Águas, 2222, Vila Verde'),
+(26, 'Instituto de Ensino e Cultura', 'Rua das Begônias, 2323, Bairro dos Pinheiros'),
+(27, 'Colégio São Rafael', 'Rua da Alegria, 2424, Parque das Flores'),
+(28, 'Instituto de Tecnologia e Pesquisa', 'Avenida da Ciência, 2525, Bairro Jardim'),
+(29, 'Escola Secundária de São Luiz', 'Rua da Prosperidade, 2626, Vila Nova'),
+(30, 'Centro Educacional do Saber', 'Rua dos Eucaliptos, 2727, Jardim das Acácias'),
+(31, 'Instituto de Formação Técnica', 'Avenida da Tecnologia, 2828, Bairro dos Navegantes'),
+(32, 'Colégio da Esperança', 'Rua do Horizonte, 2929, Centro'),
+(33, 'Instituto de Estudos Técnicos', 'Rua dos Lírios, 3030, Jardim das Rosas'),
+(34, 'Escola de Ensino Profissional', 'Avenida da Inovação, 3131, Vila São Jorge'),
+(35, 'Centro de Educação de Qualidade', 'Rua das Orquídeas, 3232, Parque das Rosas'),
+(36, 'Instituto Técnico do Futuro', 'Avenida das Indústrias, 3333, Bairro dos Pinheiros'),
+(37, 'Colégio da Juventude', 'Rua das Flores, 3434, Centro Histórico'),
+(38, 'Instituto de Tecnologia e Educação', 'Rua dos Anjos, 3535, Vila Verde'),
+(39, 'Escola de Formação Completa', 'Avenida das Nações, 3636, Bairro Jardim'),
+(40, 'Centro de Estudos São Pedro', 'Rua da Proclamação, 3737, Jardim das Acácias'),
+(41, 'Instituto de Ensino do Brasil', 'Rua das Palmeiras, 3838, Centro'),
+(42, 'Colégio do Saber', 'Avenida do Progresso, 3939, Bairro Esperança'),
+(43, 'Instituto de Educação Superior', 'Rua dos Eucaliptos, 4040, Jardim das Flores'),
+(44, 'Escola Técnica de São Jorge', 'Rua da Alegria, 4141, Vila Nova'),
+(45, 'Centro Educacional da Juventude', 'Avenida das Águas, 4242, Centro'),
+(46, 'Instituto de Tecnologia Avançada', 'Rua do Desenvolvimento, 4343, Parque das Rosas'),
+(47, 'Colégio Profissionalizante', 'Rua das Oliveiras, 4444, Bairro dos Navegantes'),
+(48, 'Instituto de Formação e Cultura', 'Avenida do Comércio, 4545, Vila São Jorge'),
+(49, 'Escola de Tecnologia e Ciência', 'Rua das Aroeiras, 4646, Jardim das Acácias'),
+(50, 'Centro de Ensino e Pesquisa', 'Rua dos Lírios, 4747, Centro Histórico');
 ```
-- Inserir dados na tabela tbl_diploma
+
+- Inserir dados na tabela DIPLOMA
 ```
-INSERT INTO tbl_diploma (ce_id_profissional, ce_id_instituicao, curso, tipo_diploma, data_concessao)
-VALUES
-    (1, 1, 'Enfermagem', 'Bacharelado', '2007-12-15'),
-    (2, 2, 'Enfermagem', 'Bacharelado', '2012-07-20'),
-    (3, 3, 'Enfermagem Obstétrica', 'Especialização', '2005-09-10'),
-    (4, 4, 'Enfermagem Pediátrica', 'Especialização', '2009-05-05'),
-    (5, 5, 'Enfermagem de Saúde Pública', 'Mestrado', '2017-11-25');
+INSERT INTO Diploma (cp_id_diploma, nome_instituicao, data_conclusao, documento, curso) VALUES
+(1, 'Universidade Federal da Bahia', '2007-12-15', '12345', 'Enfermagem'),
+(2, 'Universidade de São Paulo', '2012-07-20', '67890', 'Enfermagem'),
+(3, 'Universidade Estadual de Campinas', '2005-09-10', '11223', 'Enfermagem Obstétrica'),
+(4, 'Universidade Federal do Rio de Janeiro', '2009-05-05', '44556', 'Enfermagem Pediátrica'),
+(5, 'Universidade Estadual Paulista', '2017-11-25', '77889', 'Enfermagem de Saúde Pública'),
+(6, 'Universidade Federal de Minas Gerais', '2010-06-18', '99001', 'Enfermagem'),
+(7, 'Universidade Federal do Paraná', '2015-03-22', '22334', 'Enfermagem'),
+(8, 'Universidade Federal do Rio Grande do Sul', '2013-04-15', '55667', 'Enfermagem Obstétrica'),
+(9, 'Universidade Federal de Pernambuco', '2011-09-30', '88990', 'Enfermagem Pediátrica'),
+(10, 'Universidade Federal do Ceará', '2016-08-20', '11212', 'Enfermagem de Saúde Pública');
 ```
 - Inserir dados na tabela tbl_pagamento
 ```
@@ -1433,22 +878,234 @@ VALUES
 
 Comandos SQL para Exclusão, Alteração e Inclusão de Registros
 
-### 1. Exclusão de Registros
-
-sql
 ```
--- Exclusão de um profissional específico
-DELETE FROM tbl_profissional WHERE cpf = '56789012345';
+ALTER TABLE Pagamento 
+ADD COLUMN tipo_pagamento ENUM('PIX', 'Crédito', 'Débito', 'Boleto') NOT NULL;
 
--- Exclusão de um diploma específico
-DELETE FROM tbl_diploma WHERE tipo_diploma = 'Mestrado' AND curso = 'Enfermagem de Saúde Pública';
+ALTER TABLE Pagamento 
+ADD COLUMN tipo_servico ENUM('Renovação de Carteira', 'Pagamento de Dívidas', 'Emissão de Carteira') NOT NULL;
 
--- Exclusão de um agendamento específico
-DELETE FROM tbl_agendamento WHERE data_hora = '2024-08-24 13:00:00';
+```
 
--- Exclusão de um usuário específico
-DELETE FROM tbl_usuario WHERE nome_usuario = 'rafael_lima';
+```
+ALTER TABLE Processo_Pagamento
 
--- Exclusão de um processo específico
-DELETE FROM tbl_processo WHERE numero_processo = '77889/2024';
+ADD FOREIGN KEY (ce_id_profissional) REFERENCES Profissional(ce_id_profissional),
+ADD FOREIGN KEY (cp_id_pagamento) REFERENCES Pagamento(cp_id_pagamento);
+```
+```
+INSERT INTO Pagamento (descricao, detalhes, tipo_servico, tipo_pagamento)
+VALUES ('Renovação de carteira', 'Pagamento referente à renovação de carteira profissional', 'Renovação de Carteira', 'Boleto');
+```
+```
+DELETE FROM Processo_Pagamento
+WHERE cp_id_processo_pagamento = 4;
+```
+```
+UPDATE Processo_Pagamento
+SET cp_id_pagamento = 6
+WHERE cp_id_processo_pagamento = 3;
+```
+```
+DELETE FROM Pagamento
+WHERE cp_id_pagamento IN (49, 50);
+```
+```
+DELETE FROM Instituicao
+WHERE cp_id_instituicao IN (49, 50);
+```
+```DELETE FROM Profissional
+WHERE ce_id_profissional IN (1, 2, 3);
+```
+```
+DELETE FROM Profissional
+WHERE ce_id_profissional = 4;
+```
+```
+DELETE FROM Profissional
+WHERE ce_id_profissional IN (1, 2, 3, 4, 5, 6);
+```
+
+## 6. Consultas SQL 1: Primeiras consultas
+
+### Simples
+
+```
+-- Buscar todos os profissionais na tabela Profissional:
+SELECT * FROM Profissional;
+
+-- Buscar todos os pagamentos do tipo 'Boleto' na tabela Pagamento:
+SELECT * FROM Pagamento
+WHERE tipo_pagamento = 'Boleto';
+
+-- Buscar todos os processos de pagamento com status 'Pago':
+SELECT * FROM Processo_Pagamento
+WHERE status = 'Pago';
+
+-- Buscar todos os cursos na tabela Diploma:
+SELECT curso FROM Diploma;
+
+```
+### Intermediária
+
+```
+-- Buscar todos os profissionais e seus pagamentos associados usando joins entre Profissional e Processo_Pagamento:
+SELECT p.ce_id_profissional, p.nome, pp.cp_id_pagamento, pp.status
+FROM Profissional p
+JOIN Processo_Pagamento pp ON p.ce_id_profissional = pp.ce_id_profissional;
+
+-- Buscar todos os pagamentos com descrição e detalhes onde o tipo de serviço é 'Renovação':
+SELECT p.descricao, p.detalhes
+FROM Pagamento p
+WHERE p.tipo_servico = 'Renovação';
+
+-- Buscar todos os profissionais e suas informações de pagamento onde o status do pagamento é 'Pendente':
+SELECT p.nome, pp.status
+FROM Profissional p
+JOIN Processo_Pagamento pp ON p.ce_id_profissional = pp.ce_id_profissional
+WHERE pp.status = 'Pendente';
+
+```
+
+### Avançada
+
+```
+-- Buscar todos os pagamentos e o status do processo de pagamento para cada profissional, com detalhes adicionais e ordenado por status:
+SELECT p.nome AS Profissional, pg.descricao AS Pagamento, pp.status
+FROM Profissional p
+JOIN Processo_Pagamento pp ON p.ce_id_profissional = pp.ce_id_profissional
+JOIN Pagamento pg ON pp.cp_id_pagamento = pg.cp_id_pagamento
+ORDER BY pp.status;
+
+-- Buscar o total de pagamentos realizados por cada profissional e a descrição do serviço correspondente:
+SELECT p.nome AS Profissional, COUNT(pg.cp_id_pagamento) AS Total_Pagamentos, MAX(pg.descricao) AS Descricao_Ultimo_Pagamento
+FROM Profissional p
+JOIN Processo_Pagamento pp ON p.ce_id_profissional = pp.ce_id_profissional
+JOIN Pagamento pg ON pp.cp_id_pagamento = pg.cp_id_pagamento
+GROUP BY p.ce_id_profissional, p.nome;
+
+-- Buscar todos os profissionais que têm pelo menos um pagamento pendente, incluindo os detalhes do pagamento e o tipo de serviço:
+SELECT DISTINCT p.nome, pg.descricao, pg.tipo_servico
+FROM Profissional p
+JOIN Processo_Pagamento pp ON p.ce_id_profissional = pp.ce_id_profissional
+JOIN Pagamento pg ON pp.cp_id_pagamento = pg.cp_id_pagamento
+WHERE pp.status = 'Pendente';
+
+```
+
+## 7. Desempenho
+
+![imagem1](./img/1.png)
+```
+EXPLAIN ANALYZE
+SELECT * FROM Profissional;
+```
+![imagem2](./img/2.png)
+```
+EXPLAIN ANALYZE
+SELECT p.nome AS Profissional, pg.descricao AS Pagamento, pp.status
+FROM Profissional p
+JOIN Processo_Pagamento pp ON p.ce_id_profissional = pp.ce_id_profissional
+JOIN Pagamento pg ON pp.cp_id_pagamento = pg.cp_id_pagamento
+ORDER BY pp.status;
+```
+
+## 8. Tópicos Avançados
+
+Criar uma Stored Procedure
+```
+DELIMITER //
+
+CREATE PROCEDURE AddProfissional(
+    IN p_nome VARCHAR(255),
+    IN p_cpf VARCHAR(11),
+    IN p_data_nascimento DATE,
+    IN p_email VARCHAR(255),
+    IN p_telefone VARCHAR(20),
+    IN p_endereco VARCHAR(255),
+    IN p_id_corenba INT
+)
+BEGIN
+    INSERT INTO Profissional (nome, cpf, data_nascimento, email, telefone, endereco, id_corenba)
+    VALUES (p_nome, p_cpf, p_data_nascimento, p_email, p_telefone, p_endereco, p_id_corenba);
+END //
+
+DELIMITER ;
+```
+Backup e preservação de dados
+
+```
+1. Backup Completo do Banco de Dados
+
+Para fazer um backup completo de todos os bancos de dados:
+
+bash
+
+mysqldump -u root -p0908 --all-databases > backup_completo.sql
+
+2. Backup de um Banco de Dados Específico
+
+Para fazer um backup de um banco de dados específico, por exemplo, meu_banco:
+
+bash
+
+mysqldump -u root -p0908 meu_banco > backup_meu_banco.sql
+
+3. Backup de uma Tabela Específica
+
+Para fazer um backup de uma tabela específica, por exemplo, minha_tabela no banco meu_banco:
+
+bash
+
+mysqldump -u root -p0908 meu_banco minha_tabela > backup_minha_tabela.sql
+
+4. Restauração de um Banco de Dados
+
+Para restaurar um banco de dados a partir de um backup:
+
+bash
+
+mysql -u root -p0908 meu_banco < backup_meu_banco.sql
+
+5. Restaurar uma Tabela Específica
+
+Para restaurar uma tabela específica a partir de um backup:
+
+bash
+
+mysql -u root -p0908 meu_banco < backup_minha_tabela.sql
+
+6. Backup Incremental
+
+Se você estiver usando logs binários e quiser criar um backup incremental, você precisa de uma configuração adicional. Aqui está um exemplo de como listar os logs binários:
+
+bash
+
+mysqlbinlog --read-from-remote-server --start-datetime="2024-09-01 00:00:00" --stop-datetime="2024-09-02 00:00:00" --user=root --password=0908 > backup_incremental.sql
+
+7. Backup com mysqlpump
+
+Backup completo com mysqlpump:
+
+bash
+
+mysqlpump -u root -p0908 --all-databases > backup_completo_pump.sql
+
+8. Backup com mysqlhotcopy
+
+Se o banco de dados for MyISAM:
+
+bash
+
+mysqlhotcopy meu_banco /caminho/para/backup/
+
+9. Backup com Percona XtraBackup
+
+Para realizar um backup usando Percona XtraBackup:
+
+bash
+
+innobackupex --user=root --password=0908 /caminho/para/backup/
+
+
 ```
